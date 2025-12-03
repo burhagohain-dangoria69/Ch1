@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science Quiz - Chapter 2: Acids, Bases & Salts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background: white;
+            width: 100%;
+            max-width: 900px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a6fa5 0%, #3a5679 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .header h2 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .personal-message {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px 24px;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 4px solid #4a6fa5;
+        }
+
+        .instructions h3 {
+            color: #4a6fa5;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding-left: 5px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .instructions li:before {
+            content: "•";
+            color: #4a6fa5;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .question {
+            background: white;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            border: 1px solid #eaeaea;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .question-number {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 14px 18px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #e0e0e0;
+        }
+
+        .option:hover {
+            background: #edf2f7;
+            transform: translateX(4px);
+        }
+
+        .option input {
+            margin-right: 16px;
+            transform: scale(1.2);
+            accent-color: #4a6fa5;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 0.95rem;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 220px;
+            margin: 40px auto 20px;
+            padding: 16px;
+            background: linear-gradient(135deg, #4a6fa5 0%, #3a5679 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(74, 111, 165, 0.3);
+        }
+
+        #results {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .results-header h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .score-container {
+            background: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(91, 134, 229, 0.2);
+        }
+
+        .score {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .percentage {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .summary {
+            display: flex;
+            justify-content: space-around;
+            margin: 25px 0;
+            gap: 15px;
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+            flex: 1;
+            background: #f8f9fa;
+        }
+
+        .summary-item.correct {
+            border-top: 4px solid #27ae60;
+        }
+
+        .summary-item.incorrect {
+            border-top: 4px solid #e74c3c;
+        }
+
+        .summary-item.unattempted {
+            border-top: 4px solid #f39c12;
+        }
+
+        .summary-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .summary-item.correct .summary-value {
+            color: #27ae60;
+        }
+
+        .summary-item.incorrect .summary-value {
+            color: #e74c3c;
+        }
+
+        .summary-item.unattempted .summary-value {
+            color: #f39c12;
+        }
+
+        .results-question {
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #f8f9fa;
+            border-left: 4px solid #4a6fa5;
+        }
+
+        .question-status {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .correct .status-dot {
+            background-color: #27ae60;
+        }
+
+        .incorrect .status-dot {
+            background-color: #e74c3c;
+        }
+
+        .unattempted .status-dot {
+            background-color: #f39c12;
+        }
+
+        .explanation {
+            background: white;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #3498db;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .restart-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 14px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            background: #34495e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 25px 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .summary {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .summary-item {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Science Quiz - Chapter 2</h1>
+            <h2>Acids, Bases & Salts</h2>
+            <div class="personal-message">
+                For Rishu - All the best! 💫
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Instructions -->
+            <div class="instructions">
+                <h3>Instructions:</h3>
+                <ul>
+                    <li>Choose the best answer for each question.</li>
+                    <li>You can review and change answers before submitting.</li>
+                    <li>After submitting, you'll see detailed explanations.</li>
+                    <li>Take your time and do your best!</li>
+                </ul>
+            </div>
+            
+            <!-- Quiz Form -->
+            <form id="mcqTest">
+                <!-- Questions will be inserted here by JavaScript -->
+            </form>
+            
+            <!-- Submit Button -->
+            <button type="button" class="submit-btn" id="submitBtn">
+                Submit Quiz
+            </button>
+            
+            <!-- Results Section -->
+            <div id="results">
+                <div class="results-header">
+                    <h2>Your Results</h2>
+                    <div class="personal-message" style="background: rgba(74, 111, 165, 0.1); color: #4a6fa5;">
+                        diu is always here for you!
+                    </div>
+                </div>
+                
+                <div class="score-container">
+                    <div class="score">Score: <span id="scoreValue">0</span>/30</div>
+                    <div class="percentage">Percentage: <span id="percentage">0</span>%</div>
+                </div>
+                
+                <div class="summary">
+                    <div class="summary-item correct">
+                        <div class="summary-value" id="correctCount">0</div>
+                        <div>Correct</div>
+                    </div>
+                    <div class="summary-item incorrect">
+                        <div class="summary-value" id="incorrectCount">0</div>
+                        <div>Incorrect</div>
+                    </div>
+                    <div class="summary-item unattempted">
+                        <div class="summary-value" id="unattemptedCount">0</div>
+                        <div>Unattempted</div>
+                    </div>
+                </div>
+                
+                <div id="detailedResults">
+                    <!-- Results will be populated here by JavaScript -->
+                </div>
+                
+                <button class="restart-btn" id="restartBtn">
+                    Take Quiz Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Questions data
+        const questions = [
+            {
+                number: 1,
+                question: "Which of the following is a natural indicator?",
+                options: [
+                    { letter: "a", text: "Phenolphthalein" },
+                    { letter: "b", text: "Methyl orange" },
+                    { letter: "c", text: "Turmeric" },
+                    { letter: "d", text: "Litmus paper" }
+                ]
+            },
+            {
+                number: 2,
+                question: "The gas evolved when zinc reacts with dilute H₂SO₄ is:",
+                options: [
+                    { letter: "a", text: "CO₂" },
+                    { letter: "b", text: "H₂" },
+                    { letter: "c", text: "SO₂" },
+                    { letter: "d", text: "O₂" }
+                ]
+            },
+            {
+                number: 3,
+                question: "pH of a neutral solution at 25°C is:",
+                options: [
+                    { letter: "a", text: "0" },
+                    { letter: "b", text: "7" },
+                    { letter: "c", text: "14" },
+                    { letter: "d", text: "1" }
+                ]
+            },
+            {
+                number: 4,
+                question: "Which salt is formed from a strong acid and a weak base?",
+                options: [
+                    { letter: "a", text: "NaCl" },
+                    { letter: "b", text: "CH₃COONa" },
+                    { letter: "c", text: "NH₄Cl" },
+                    { letter: "d", text: "Na₂CO₃" }
+                ]
+            },
+            {
+                number: 5,
+                question: "Water of crystallisation in CuSO₄·5H₂O is:",
+                options: [
+                    { letter: "a", text: "2" },
+                    { letter: "b", text: "5" },
+                    { letter: "c", text: "10" },
+                    { letter: "d", text: "1" }
+                ]
+            },
+            {
+                number: 6,
+                question: "Plaster of Paris is stored in airtight containers because:",
+                options: [
+                    { letter: "a", text: "It oxidises" },
+                    { letter: "b", text: "It absorbs moisture and sets" },
+                    { letter: "c", text: "It evaporates" },
+                    { letter: "d", text: "It decomposes" }
+                ]
+            },
+            {
+                number: 7,
+                question: "Which base is used in toothpaste to neutralise mouth acids?",
+                options: [
+                    { letter: "a", text: "NaOH" },
+                    { letter: "b", text: "Mg(OH)₂" },
+                    { letter: "c", text: "Ca(OH)₂" },
+                    { letter: "d", text: "NH₄OH" }
+                ]
+            },
+            {
+                number: 8,
+                question: "Chlor-alkali process uses aqueous solution of:",
+                options: [
+                    { letter: "a", text: "Na₂CO₃" },
+                    { letter: "b", text: "NaCl" },
+                    { letter: "c", text: "CaCl₂" },
+                    { letter: "d", text: "KCl" }
+                ]
+            },
+            {
+                number: 9,
+                question: "Bee sting contains:",
+                options: [
+                    { letter: "a", text: "Acetic acid" },
+                    { letter: "b", text: "Methanoic acid" },
+                    { letter: "c", text: "Citric acid" },
+                    { letter: "d", text: "Lactic acid" }
+                ]
+            },
+            {
+                number: 10,
+                question: "Which of the following is a weak acid?",
+                options: [
+                    { letter: "a", text: "HCl" },
+                    { letter: "b", text: "H₂SO₄" },
+                    { letter: "c", text: "CH₃COOH" },
+                    { letter: "d", text: "HNO₃" }
+                ]
+            },
+            {
+                number: 11,
+                question: "The pH at which tooth enamel starts decaying is:",
+                options: [
+                    { letter: "a", text: "7.0" },
+                    { letter: "b", text: "6.5" },
+                    { letter: "c", text: "5.5" },
+                    { letter: "d", text: "4.5" }
+                ]
+            },
+            {
+                number: 12,
+                question: "Reaction of metal carbonate with acid gives:",
+                options: [
+                    { letter: "a", text: "Salt + H₂" },
+                    { letter: "b", text: "Salt + CO₂ + H₂O" },
+                    { letter: "c", text: "Salt + O₂" },
+                    { letter: "d", text: "Salt + H₂O" }
+                ]
+            },
+            {
+                number: 13,
+                question: "Which acid is present in vinegar?",
+                options: [
+                    { letter: "a", text: "Citric" },
+                    { letter: "b", text: "Acetic" },
+                    { letter: "c", text: "Lactic" },
+                    { letter: "d", text: "Tartaric" }
+                ]
+            },
+            {
+                number: 14,
+                question: "Bleaching powder's chemical formula is:",
+                options: [
+                    { letter: "a", text: "CaOCl₂" },
+                    { letter: "b", text: "Ca(OCl)₂" },
+                    { letter: "c", text: "CaCl₂" },
+                    { letter: "d", text: "CaO" }
+                ]
+            },
+            {
+                number: 15,
+                question: "pH of 10⁻³ M HCl solution is:",
+                options: [
+                    { letter: "a", text: "3" },
+                    { letter: "b", text: "11" },
+                    { letter: "c", text: "7" },
+                    { letter: "d", text: "1" }
+                ]
+            },
+            {
+                number: 16,
+                question: "Which salt is used for removing permanent hardness of water?",
+                options: [
+                    { letter: "a", text: "NaCl" },
+                    { letter: "b", text: "Na₂CO₃" },
+                    { letter: "c", text: "NaHCO₃" },
+                    { letter: "d", text: "CaSO₄" }
+                ]
+            },
+            {
+                number: 17,
+                question: "When acids react with metal oxides, the products are:",
+                options: [
+                    { letter: "a", text: "Salt + H₂" },
+                    { letter: "b", text: "Salt + CO₂" },
+                    { letter: "c", text: "Salt + H₂O" },
+                    { letter: "d", text: "Salt + O₂" }
+                ]
+            },
+            {
+                number: 18,
+                question: "The acid present in ant sting is:",
+                options: [
+                    { letter: "a", text: "Acetic" },
+                    { letter: "b", text: "Methanoic" },
+                    { letter: "c", text: "Lactic" },
+                    { letter: "d", text: "Citric" }
+                ]
+            },
+            {
+                number: 19,
+                question: "Which is NOT an alkali?",
+                options: [
+                    { letter: "a", text: "NaOH" },
+                    { letter: "b", text: "KOH" },
+                    { letter: "c", text: "NH₄OH" },
+                    { letter: "d", text: "Fe(OH)₃" }
+                ]
+            },
+            {
+                number: 20,
+                question: "The gas liberated at anode during chlor-alkali process is:",
+                options: [
+                    { letter: "a", text: "H₂" },
+                    { letter: "b", text: "Cl₂" },
+                    { letter: "c", text: "O₂" },
+                    { letter: "d", text: "N₂" }
+                ]
+            },
+            {
+                number: 21,
+                question: "Assertion (A): Dry HCl gas does not change dry litmus colour.<br>Reason (R): Acids show properties only in aqueous solution.",
+                options: [
+                    { letter: "a", text: "Both A & R true, R explains A" },
+                    { letter: "b", text: "Both true, R doesn't explain A" },
+                    { letter: "c", text: "A true, R false" },
+                    { letter: "d", text: "A false, R true" }
+                ]
+            },
+            {
+                number: 22,
+                question: "A solution has pH 9. Its [H⁺] compared to neutral solution is:",
+                options: [
+                    { letter: "a", text: "10⁻² times" },
+                    { letter: "b", text: "10² times" },
+                    { letter: "c", text: "Same" },
+                    { letter: "d", text: "10⁷ times" }
+                ]
+            },
+            {
+                number: 23,
+                question: "Setting of Plaster of Paris involves:",
+                options: [
+                    { letter: "a", text: "Oxidation" },
+                    { letter: "b", text: "Reduction" },
+                    { letter: "c", text: "Hydration" },
+                    { letter: "d", text: "Dehydration" }
+                ]
+            },
+            {
+                number: 24,
+                question: "Which reaction is used in soda-acid fire extinguishers?",
+                options: [
+                    { letter: "a", text: "Acid + metal" },
+                    { letter: "b", text: "Base + metal oxide" },
+                    { letter: "c", text: "Acid + metal bicarbonate" },
+                    { letter: "d", text: "Base + non-metal oxide" }
+                ]
+            },
+            {
+                number: 25,
+                question: "Assertion (A): Baking powder is used instead of baking soda in cooking.<br>Reason (R): Baking powder contains tartaric acid which reacts slowly with NaHCO₃.",
+                options: [
+                    { letter: "a", text: "Both A & R true, R explains A" },
+                    { letter: "b", text: "Both true, R doesn't explain A" },
+                    { letter: "c", text: "A true, R false" },
+                    { letter: "d", text: "A false, R true" }
+                ]
+            },
+            {
+                number: 26,
+                question: "The difference in water molecules between gypsum and POP is:",
+                options: [
+                    { letter: "a", text: "1½" },
+                    { letter: "b", text: "2" },
+                    { letter: "c", text: "½" },
+                    { letter: "d", text: "3" }
+                ]
+            },
+            {
+                number: 27,
+                question: "Which substance is used to treat wasp stings?",
+                options: [
+                    { letter: "a", text: "Baking soda" },
+                    { letter: "b", text: "Vinegar" },
+                    { letter: "c", text: "Ca(OH)₂" },
+                    { letter: "d", text: "Soap" }
+                ]
+            },
+            {
+                number: 28,
+                question: "pH of blood is maintained between:",
+                options: [
+                    { letter: "a", text: "6.8-7.0" },
+                    { letter: "b", text: "7.0-7.2" },
+                    { letter: "c", text: "7.35-7.45" },
+                    { letter: "d", text: "8.0-8.5" }
+                ]
+            },
+            {
+                number: 29,
+                question: "On heating, blue vitriol changes to white because of:",
+                options: [
+                    { letter: "a", text: "Oxidation" },
+                    { letter: "b", text: "Loss of water of crystallisation" },
+                    { letter: "c", text: "Reduction" },
+                    { letter: "d", text: "Decomposition" }
+                ]
+            },
+            {
+                number: 30,
+                question: "Which salt is formed when strong base reacts with weak acid?",
+                options: [
+                    { letter: "a", text: "Neutral" },
+                    { letter: "b", text: "Acidic" },
+                    { letter: "c", text: "Basic" },
+                    { letter: "d", text: "Amphoteric" }
+                ]
+            }
+        ];
+
+        // Initialize the quiz
+        document.addEventListener('DOMContentLoaded', function() {
+            createQuizQuestions();
+            document.getElementById('submitBtn').addEventListener('click', submitQuiz);
+            document.getElementById('restartBtn').addEventListener('click', restartQuiz);
+        });
+
+        // Create quiz questions dynamically
+        function createQuizQuestions() {
+            const form = document.getElementById('mcqTest');
+            
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.style.animationDelay = (index * 0.05) + 's';
+                
+                let optionsHTML = '';
+                q.options.forEach(opt => {
+                    optionsHTML += `
+                        <div class="option">
+                            <input type="radio" name="q${q.number}" value="${opt.letter}" id="q${q.number}${opt.letter}">
+                            <label for="q${q.number}${opt.letter}">(${opt.letter}) ${opt.text}</label>
+                        </div>
+                    `;
+                });
+                
+                questionDiv.innerHTML = `
+                    <div class="question-number">Question ${q.number}: ${q.question}</div>
+                    <div class="options">${optionsHTML}</div>
+                `;
+                
+                form.appendChild(questionDiv);
+            });
+        }
+
+        // Submit and evaluate quiz
+        function submitQuiz() {
+            // Correct answers
+            const correctAnswers = {
+                q1: 'c', q2: 'b', q3: 'b', q4: 'c', q5: 'b',
+                q6: 'b', q7: 'b', q8: 'b', q9: 'b', q10: 'c',
+                q11: 'c', q12: 'b', q13: 'b', q14: 'a', q15: 'a',
+                q16: 'b', q17: 'c', q18: 'b', q19: 'd', q20: 'b',
+                q21: 'a', q22: 'a', q23: 'c', q24: 'c', q25: 'a',
+                q26: 'a', q27: 'b', q28: 'c', q29: 'b', q30: 'c'
+            };
+            
+            // Explanations
+            const explanations = {
+                q1: "Turmeric is a naturally occurring indicator found in plants, while phenolphthalein and methyl orange are synthetic. Litmus is natural but is usually used as paper strips.",
+                q2: "Metals react with dilute acids to liberate hydrogen gas. Reaction: Zn + H₂SO₄ → ZnSO₄ + H₂.",
+                q3: "Pure water has equal concentrations of H⁺ and OH⁻ ions, giving a pH of 7, which is neutral.",
+                q4: "NH₄Cl is formed from strong HCl and weak NH₄OH, making the solution acidic (pH < 7). NaCl is neutral, CH₃COONa and Na₂CO₃ are basic salts.",
+                q5: "The formula shows 5 molecules of water of crystallisation per formula unit of copper sulphate.",
+                q6: "POP (CaSO₄·½H₂O) absorbs water from air and sets into hard gypsum, losing its usability.",
+                q7: "Magnesium hydroxide (Milk of Magnesia) is mild, non-corrosive, and used in toothpaste and antacids.",
+                q8: "The process electrolyses concentrated brine (NaCl solution) to produce NaOH, Cl₂, and H₂.",
+                q9: "Bee venom is acidic due to methanoic (formic) acid, which is why baking soda (base) neutralises it.",
+                q10: "Acetic acid ionises only partially in water, making it weak. HCl, H₂SO₄, and HNO₃ are strong acids.",
+                q11: "Enamel (hydroxyapatite) begins to corrode when mouth pH falls below 5.5 due to bacterial acid production.",
+                q12: "Metal carbonates/bicarbonates react with acids to produce salt, carbon dioxide, and water.",
+                q13: "Vinegar contains 5-8% acetic acid (CH₃COOH).",
+                q14: "Bleaching powder is calcium oxychloride, with approximate formula CaOCl₂.",
+                q15: "pH = -log[H⁺]; for 10⁻³ M HCl, [H⁺] = 10⁻³, so pH = 3.",
+                q16: "Washing soda (Na₂CO₃) precipitates Ca²⁺/Mg²⁺ ions as carbonates, removing hardness.",
+                q17: "Metal oxides are basic oxides; they react with acids to form salt and water.",
+                q18: "Ants inject methanoic acid, causing pain and irritation.",
+                q19: "Iron(III) hydroxide is insoluble in water and does not produce OH⁻ ions, so it's a base but not an alkali.",
+                q20: "At the anode, chloride ions are oxidised to chlorine gas. Hydrogen is liberated at the cathode.",
+                q21: "Dry HCl lacks H⁺ ions. Only in water does HCl ionise to H₃O⁺, showing acidic properties and changing litmus colour.",
+                q22: "Neutral pH = 7, [H⁺] = 10⁻⁷ M. pH 9 => [H⁺] = 10⁻⁹ M. Ratio = 10⁻⁹/10⁻⁷ = 10⁻².",
+                q23: "POP combines with water to form gypsum, a hard solid mass.",
+                q24: "H₂SO₄ reacts with NaHCO₃ to produce CO₂ gas, which extinguishes fire.",
+                q25: "Baking powder is a mixture of NaHCO₃ and tartaric acid. The slow reaction ensures controlled CO₂ release, making cakes fluffy without bitterness.",
+                q26: "Gypsum = CaSO₄·2H₂O, POP = CaSO₄·½H₂O. Difference = 2 - 0.5 = 1.5 molecules.",
+                q27: "Wasp sting is alkaline; acidic vinegar neutralises it. Bee sting is acidic, neutralised by baking soda.",
+                q28: "Even slight deviations can disrupt enzyme function and be fatal.",
+                q29: "CuSO₄·5H₂O loses water to become anhydrous CuSO₄, which is white.",
+                q30: "The salt hydrolyses to produce OH⁻ ions, making the solution basic (pH > 7), e.g., CH₃COONa."
+            };
+            
+            let score = 0;
+            let correctCount = 0;
+            let incorrectCount = 0;
+            let unattemptedCount = 0;
+            let resultsHTML = "";
+            
+            // Check each question
+            for (let i = 1; i <= 30; i++) {
+                const questionId = `q${i}`;
+                const selectedOption = document.querySelector(`input[name="${questionId}"]:checked`);
+                const userAnswer = selectedOption ? selectedOption.value : null;
+                const correctAnswer = correctAnswers[questionId];
+                const questionData = questions[i-1];
+                
+                let statusClass = "";
+                let statusText = "";
+                
+                if (userAnswer === null) {
+                    statusClass = "unattempted";
+                    statusText = "Not attempted";
+                    unattemptedCount++;
+                } else if (userAnswer === correctAnswer) {
+                    statusClass = "correct";
+                    statusText = "Correct";
+                    score++;
+                    correctCount++;
+                } else {
+                    statusClass = "incorrect";
+                    statusText = "Incorrect";
+                    incorrectCount++;
+                }
+                
+                resultsHTML += `
+                    <div class="results-question">
+                        <div class="question-status ${statusClass}">
+                            <span class="status-dot"></span>
+                            Question ${i}: ${statusText}
+                        </div>
+                        <p><strong>Your answer:</strong> ${userAnswer ? `(${userAnswer})` : 'Not attempted'}</p>
+                        <p><strong>Correct answer:</strong> (${correctAnswer})</p>
+                        <div class="explanation">
+                            <strong>Explanation:</strong> ${explanations[questionId]}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Calculate percentage
+            const percentage = ((score / 30) * 100).toFixed(1);
+            
+            // Update results
+            document.getElementById('scoreValue').textContent = score;
+            document.getElementById('percentage').textContent = percentage;
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('incorrectCount').textContent = incorrectCount;
+            document.getElementById('unattemptedCount').textContent = unattemptedCount;
+            document.getElementById('detailedResults').innerHTML = resultsHTML;
+            
+            // Show results
+            document.getElementById('results').style.display = 'block';
+            
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Restart quiz
+        function restartQuiz() {
+            // Reset all radio buttons
+            const radioButtons = document.querySelectorAll('input[type="radio"]');
+            radioButtons.forEach(radio => {
+                radio.checked = false;
+            });
+            
+            // Hide results
+            document.getElementById('results').style.display = 'none';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
